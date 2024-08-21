@@ -42,12 +42,22 @@ function addEntry(){
     targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);    
 }
 
-function clearInputs(){        
-};
+
 
 // get calorie value from input
 function sumInputValue(array){
     let sum = 0;
+    for ( const item of array){
+        const curVal = editInput(item.value);
+        const invalidInput = isValidInput(curVal);
+        if (invalidInput){
+            alert(`Invalid Input: ${invalidInput[0]}`);
+            isError = true;
+            return null;
+        }
+        sum += Number(curVal);
+    }
+    return sum;
 }
 
 // calculate calorie function
@@ -56,9 +66,11 @@ function calculateCarorie(e){
     e.preventDefault(budgetNumberInput);
     //console.log(budgetNumberInput.value);
     //console.log(document.querySelectorAll('#breakfast input[type="number"]')[0].value)
+    const breakfastInputs = documnet.querySelectorAll('#breakfast input[type="num"]')    
 }
 
-
+function clearInputs(){        
+};
 
 // there are three buttons total
 // so you should add eventlistener first
