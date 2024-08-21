@@ -15,3 +15,9 @@ function isValidInput(str){
     const reg = /\d+e\d+/i;
     return str.match(reg);
 }
+
+calorieCounter.addEventListener('submit', calculateCarorie)
+
+function calculateCarorie(e){
+    e.preventDefault();
+}
