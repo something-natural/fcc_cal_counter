@@ -26,29 +26,36 @@ function addEntry(){
     const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);  
     
     // get target entry count 
-    const targetEntryCount = targetInputContainer.querySelectorAll('input[type="text"]').length + 1;
-    console.log(targetEntryCount);
+    const targetEntry = targetInputContainer.querySelectorAll('input[type="text"]')
+    console.log(targetEntry);
     
     // check targetInputContainer value
     // console.log(targetInputContainer)
         
     // make html string to insert
     const HTMLstring = `
-        <lable for="${entryDropDown.value}-${targetEntryCount}-name">name</lable>
-        <input type="text" id="${entryDropDown.value}-${targetEntryCount}-name"required>
-        <lable for="${entryDropDown.value}-${targetEntryCount}-calorie">calorie</lable>
-        <input type="number" min="0" id="${entryDropDown.value}-${targetEntryCount}-calorie" required>
+        <lable for="${entryDropDown.value}-${targetEntry.length + 1}-name">name</lable>
+        <input type="text" id="${entryDropDown.value}-${targetEntry.length + 1}-name"required>
+        <lable for="${entryDropDown.value}-${targetEntry.length + 1}-calorie">calorie</lable>
+        <input type="number" min="0" id="${entryDropDown.value}-${targetEntry.length + 1}-calorie" required>
         `
     targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);    
 }
 
-function clearInputs(){    
+function clearInputs(){        
 };
 
-// calculate carorie function
+// get calorie value from input
+function sumInputValue(array){
+    let sum = 0;
+}
+
+// calculate calorie function
 function calculateCarorie(e){
     // set prevent default first 
-    e.preventDefault();
+    e.preventDefault(budgetNumberInput);
+    //console.log(budgetNumberInput.value);
+    //console.log(document.querySelectorAll('#breakfast input[type="number"]')[0].value)
 }
 
 
