@@ -26,8 +26,7 @@ function addEntry(){
     const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);  
     
     // get target entry count 
-    const targetEntry = targetInputContainer.querySelectorAll('input[type="text"]')
-    console.log(targetEntry);
+    const targetEntry = targetInputContainer.querySelectorAll('input[type="text"]')    
     
     // check targetInputContainer value
     // console.log(targetInputContainer)
@@ -64,9 +63,34 @@ function sumInputValue(array){
 function calculateCarorie(e){
     // set prevent default first 
     e.preventDefault(budgetNumberInput);
-    //console.log(budgetNumberInput.value);
-    //console.log(document.querySelectorAll('#breakfast input[type="number"]')[0].value)
-    const breakfastInputs = documnet.querySelectorAll('#breakfast input[type="num"]')    
+    
+    // make array from inputs
+    const breakfastInputs = document.querySelectorAll('#breakfast input[type="number"]');    
+    const lunchInputs = document.querySelectorAll('#lunch input[type="number"]');
+    const dinnerInputs = document.querySelectorAll('#dinner input[type="number"]');
+    const snackInputs = document.querySelectorAll('#snacks input[type="number"]');
+    const exerciseInputs = document.querySelectorAll('#exercise input[type="number"]');
+
+    // sum array item values
+    const sumBreakfast = sumInputValue(breakfastInputs);
+    const sumLunch = sumInputValue(lunchInputs);
+    const sumDinner = sumInputValue(dinnerInputs);
+    const sumSnacks = sumInputValue(snackInputs);
+    const sumExer = sumInputValue(exerciseInputs);
+
+    //calculate final result
+    const calResult = budgetNumberInput.value - sumBreakfast - sumLunch - sumDinner - sumSnacks + sumExer
+    console.log(calResult);
+
+    //make html to insert
+    const HTMLstring = `
+    <span>${calResult}</span>
+    `
+    output.insertAdjacentHTML('beforeend', HTMLstring)
+
+    //make output visable
+    output.classList.remove('hide');
+
 }
 
 function clearInputs(){        
