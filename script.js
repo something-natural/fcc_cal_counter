@@ -16,8 +16,42 @@ function isValidInput(str){
     return str.match(reg);
 }
 
-calorieCounter.addEventListener('submit', calculateCarorie)
+// add entry funcion. when you click 'ADD Entry button',
+// this funciont get entrydropdown.value
+// insert input tag(id, class) in filedset where id == entrydropdown.value
+// and store inputs
+function addEntry(){
+    // get container posint 
+    const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);    
+    
+    // check targetInputContainer value
+    // console.log(targetInputContainer)
+    
+    // make html string to insert
+    const HTMLstring = `
+        <lable for="name">name</lable>
+        <input type="text" required>
+        <lable for="calorie">calorie</lable>
+        <input type="number" min="0" required>
+        `
+    targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);
+}
 
+function clearInputs(){
+    
+};
+
+// calculate carorie function
 function calculateCarorie(e){
+    // set prevent default first 
     e.preventDefault();
 }
+
+
+
+// there are three buttons total
+// so you should add eventlistener first
+//call prevent functhion for submit event
+calorieCounter.addEventListener('submit', calculateCarorie)
+addEntryButton.addEventListener('click', addEntry);
+clearButton.addEventListener('click', clearInputs)
