@@ -22,23 +22,27 @@ function isValidInput(str){
 // and store inputs
 function addEntry(){
     // get container posint 
-    const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);    
+    // console.log(entryDropDown.value)
+    const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);  
+    
+    // get target entry count 
+    const targetEntryCount = targetInputContainer.querySelectorAll('input[type="text"]').length + 1;
+    console.log(targetEntryCount);
     
     // check targetInputContainer value
     // console.log(targetInputContainer)
-    
+        
     // make html string to insert
     const HTMLstring = `
-        <lable for="name">name</lable>
-        <input type="text" required>
-        <lable for="calorie">calorie</lable>
-        <input type="number" min="0" required>
+        <lable for="${entryDropDown.value}-${targetEntryCount}-name">name</lable>
+        <input type="text" id="${entryDropDown.value}-${targetEntryCount}-name"required>
+        <lable for="${entryDropDown.value}-${targetEntryCount}-calorie">calorie</lable>
+        <input type="number" min="0" id="${entryDropDown.value}-${targetEntryCount}-calorie" required>
         `
-    targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);
+    targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);    
 }
 
-function clearInputs(){
-    
+function clearInputs(){    
 };
 
 // calculate carorie function
@@ -55,3 +59,4 @@ function calculateCarorie(e){
 calorieCounter.addEventListener('submit', calculateCarorie)
 addEntryButton.addEventListener('click', addEntry);
 clearButton.addEventListener('click', clearInputs)
+
