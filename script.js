@@ -4,6 +4,7 @@ const entryDropDown = document.getElementById('entry-dropdown');
 const addEntryButton = document.getElementById('add-entry')
 const clearButton = document.getElementById('clear');
 const output = document.getElementById('output');
+let isError = false;
 
 // even if 'input tags type is 'number', it still accpet '+, -, e, \s'
 // you should handle these things first
@@ -16,13 +17,12 @@ function isValidInput(str){
     return str.match(reg);
 }
 
-// add entry funcion. when you click 'ADD Entry button',
-// this funciont get entrydropdown.value
-// insert input tag(id, class) in filedset where id == entrydropdown.value
-// and store inputs
+/* add entry funcion. when you click 'ADD Entry button',
+this funciont get entrydropdown.value 
+insert input tag(id, class) in filedset where id == entrydropdown.value and store inputs */ 
+
 function addEntry(){
-    // get container posint 
-    // console.log(entryDropDown.value)
+    // get container position    
     const targetInputContainer = document.querySelector(`#${entryDropDown.value} .input-container`);  
     
     // get target entry count 
@@ -41,14 +41,13 @@ function addEntry(){
     targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);    
 }
 
-
-
 // get calorie value from input
 function sumInputValue(array){
     let sum = 0;
     for ( const item of array){
         const curVal = editInput(item.value);
         const invalidInput = isValidInput(curVal);
+        console.log(invalidInput)
         if (invalidInput){
             alert(`Invalid Input: ${invalidInput[0]}`);
             isError = true;
@@ -60,9 +59,12 @@ function sumInputValue(array){
 }
 
 // calculate calorie function
-function calculateCarorie(e){
-    // set prevent default first 
+function calculateCalorie(e){    
+    // disable submit default action to keep inputs
     e.preventDefault(budgetNumberInput);
+    
+    // set isError to false for running calculation again
+    isError = false
     
     // make array from inputs
     const breakfastInputs = document.querySelectorAll('#breakfast input[type="number"]');    
@@ -71,26 +73,30 @@ function calculateCarorie(e){
     const snackInputs = document.querySelectorAll('#snacks input[type="number"]');
     const exerciseInputs = document.querySelectorAll('#exercise input[type="number"]');
 
-    // sum array item values
+    // sum array item values. and sumInputValue make isError to true if there is any invalid input
     const sumBreakfast = sumInputValue(breakfastInputs);
     const sumLunch = sumInputValue(lunchInputs);
     const sumDinner = sumInputValue(dinnerInputs);
-    const sumSnacks = sumInputValue(snackInputs);
+    const sumSnacks = sumInputValue(snackInputs);    
     const sumExer = sumInputValue(exerciseInputs);
 
-    //calculate final result
-    const calResult = budgetNumberInput.value - sumBreakfast - sumLunch - sumDinner - sumSnacks + sumExer
-    console.log(calResult);
+    // return nothing when input is not valid
+    if (isError){
+        return;
+    }
 
+    //calculate final result
+    const sumConsume = sumBreakfast + sumLunch + sumDinner + sumSnacks;    
+    const sumAll = budgetNumberInput.value - sumConsume + sumExer
+    const judge = sumAll > 0 ? "Surplus" : "Deficit"    
+        
     //make html to insert
-    const HTMLstring = `
-    <span>${calResult}</span>
+    output.innerHTML = `
+    <span class="${judge.toLocaleLowerCase()}">${sumAll} calories ${judge}</span>
     `
-    output.insertAdjacentHTML('beforeend', HTMLstring)
 
     //make output visable
     output.classList.remove('hide');
-
 }
 
 function clearInputs(){        
@@ -99,7 +105,7 @@ function clearInputs(){
 // there are three buttons total
 // so you should add eventlistener first
 //call prevent functhion for submit event
-calorieCounter.addEventListener('submit', calculateCarorie)
+calorieCounter.addEventListener('submit', calculateCalorie)
 addEntryButton.addEventListener('click', addEntry);
 clearButton.addEventListener('click', clearInputs)
 
