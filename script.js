@@ -1,3 +1,18 @@
+/* calorie counter
+
+1. design
+ - a. get budget input
+ - b. get calorie input and disaply per meal
+ - c. calculate and show result
+ - d. reset everthing using clear button
+
+2. needs
+  - 1a : input
+  - 2a : button to make input, per meal area, dynamic entry insertion, make ipnut value to array for calculation, input value validattion(check value is number or not)           
+  - 3c : button to submit, prevent submit default, dynamic result insertion
+  - 4d : button to interact, reset dynamic insertion to none
+*/
+
 const calorieCounter = document.getElementById('calorie-counter');
 const budgetNumberInput = document.getElementById('budget');
 const entryDropDown = document.getElementById('entry-dropdown');
@@ -38,12 +53,16 @@ function addEntry(){
         <lable for="${entryDropDown.value}-${targetEntry.length + 1}-calorie">calorie</lable>
         <input type="number" min="0" id="${entryDropDown.value}-${targetEntry.length + 1}-calorie" required>
         `
+    // insert html
     targetInputContainer.insertAdjacentHTML('beforeend', HTMLstring);    
 }
 
 // get calorie value from input
 function sumInputValue(array){
+    //declair rerturn var
     let sum = 0;
+    
+    // validate item.value and sum with loop
     for ( const item of array){
         const curVal = editInput(item.value);
         const invalidInput = isValidInput(curVal);
@@ -60,7 +79,7 @@ function sumInputValue(array){
 
 // calculate calorie function
 function calculateCalorie(e){    
-    // disable submit default action to keep inputs
+    // disable default submit action to keep inputs
     e.preventDefault(budgetNumberInput);
     
     // set isError to false for running calculation again
@@ -99,7 +118,19 @@ function calculateCalorie(e){
     output.classList.remove('hide');
 }
 
-function clearInputs(){        
+function clearInputs(){
+    // set budget input to none
+    budgetNumberInput.value = "";        
+    
+    // set inputcontainers to none
+    const inputContainers = Array.from(document.querySelectorAll('.input-container'));
+    for ( const item of inputContainers){
+        item.innerHTML = ""
+    }
+    
+    // hide ouput and set innerhtml to none
+    output.classList.add('hide');
+    output.innerHTML = "";    
 };
 
 // there are three buttons total
